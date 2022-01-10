@@ -34,8 +34,8 @@ slangDict = {"ong": "i mean it as much as my devotion to the lord",
 "):":"this event has greatly saddened me",
 "weed":"toke is high right now",
 "u":"you",
-"ily":"",
-"imy":"",
+"ily":"an expression of my great adoration for you",
+"imy":"sometimes i think about you when im in bed at 3am listening to frank ocean",
 "wanna":"want to",
 "gonna":"going to",
 "squaw":"those who have been with me for the longest time",
@@ -77,14 +77,23 @@ def slangFun():
         botMsg = ""
         parsedString = userMsg.split(" ")
         appendMsg = ""
+        iterStr = ""
 
-        for x in parsedString:
+        for x in range (0,len(parsedString)):
 
-            botMsg = botMsg + x + " "
+            iterStr = parsedString[x]
 
-            if x in slangDict:
+            if(x>0):
+                appendMsg = parsedString[x-1] + " " + iterStr
+            botMsg = botMsg + iterStr + " "
+
+            if appendMsg in slangDict and len(appendMsg) > 0:
+                iterStr = appendMsg
+                print("this shit in here bruh")
+
+            if iterStr in slangDict:
                 sendBool = True
-                botMsg = botMsg + "(" + slangDict[x] + ") "
+                botMsg = botMsg + "(" + slangDict[iterStr] + ") "
 
         if(sendBool):
             await msg.channel.send(botMsg)
