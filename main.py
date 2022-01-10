@@ -99,7 +99,8 @@ def getRunBool():
     return runSlangBool
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+#TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = "OTMwMTY4NzIwNTg2ODQ2MjA5.Ydx9IA.bvLqiDKhLC3qrncfezDnSWd2xps"
 
 client = discord.Client()
 
