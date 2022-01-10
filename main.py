@@ -12,7 +12,7 @@ slangDict = {"ong": "i mean it as much as my devotion to the lord",
 "finna":"gonna (going to)",
 "bruh":"is what you speak really true? brethren",
 "innit":"isn't it?",
-"cuh":"ac",
+"cuh":"my brother",
 "blud":"buddy",
 "wusgud":"hows it going",
 "wussup":"what is going on",
@@ -20,12 +20,12 @@ slangDict = {"ong": "i mean it as much as my devotion to the lord",
 "tyt":"take all the time you need",
 "ttyl":"i will talk to you later!",
 "carti":"Sir mister lord cartington III of reflection land",
-"lmao":"im laughing so my butt is about to fall off",
+"lmao":"im laughing so hard my butt is about to fall off",
 "rn":"right now",
 "creations":"I DONT WANNA FADE TOO SOON",
 "no cap":"without a lie",
 "yk":"you know",
-"no cappa":"wihtout a lie (but with even more emphasis)",
+"no cappa":"without a lie (but with even more emphasis)",
 "wagwan":"what's good?",
 "ey":"hey!",
 "valorant":"i like men",
@@ -40,8 +40,7 @@ slangDict = {"ong": "i mean it as much as my devotion to the lord",
 "gonna":"going to",
 "squaw":"those who have been with me for the longest time",
 "shawty":"a girl who looks good",
-"cant even lie":"I reluctantly agree to the proposition",
-"ngl":"to be completely hoonest",
+"ngl":"I reluctantly agree to the proposition",
 "lmoa":"try again",
 "loll":"try again",
 "nt":"it was a valiant attempt",
@@ -56,24 +55,101 @@ slangDict = {"ong": "i mean it as much as my devotion to the lord",
 "kanye":"the goat (greatest of all time)",
 "drake":"femboy",
 "goat":"the greatest of all time",
-"stg":"i swear by jove",
+"istg":"i swear by jove",
+"bruv":"bruh but british",
+"yessir":"an exclaim of humble agreeance",
+"slang":"I AM HERE TO HELP!",
+"bouta":"it is soon that",
+"tbh":"if i were to be completely transparent",
+"bro":"person who is as if born alongside me",
+"imo":"if you were to ask me",
+"lmfao":"laughing as if my butt were about to REALLY fall off",
+"dead homies":"in memory of my dearly departed companions",
+"slangbot":"spambot",
+"ik":"im well aware",
+"wtf":"what in the world?!?",
+"pls":"if you could",
+"dis":"the subject we are speaking of",
+"trippin":"having neurotic convulsions due to excess amounts of drugs",
+"neva":"not anytime in the near future",
+"lol":"i find this quite humerous",
+"tfti":"i cant believe you forgot to send me an invitation",
+"bet":"alrighty then",
+"jit":"young fellow",
+"naw":"no way!",
+"dawg":"a brother that you cant call a female dog",
+"ez":"little effort to complete",
 "":"",
 "":"",
 "":"",
 "":"",
 "":"",
-"":"",
-"":""
+
+
 }
 
-def slangFun():
-    @client.event
-    async def on_message(msg):
-        if msg.author == client.user:
-            return
+runSlangBool = True
 
+def invertRunBool():
+
+    global runSlangBool
+    runSlangBool = not runSlangBool
+
+def getRunBool():
+    return runSlangBool
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+
+client = discord.Client()
+
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected to Discord!')
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="as an Elite Reflectioner"))
+
+
+@client.event
+async def on_message(msg):
+    if msg.author == client.user:
+        return
+
+    runBool = getRunBool()
+    userMsg = msg.content
+
+    if userMsg == "-slang":
+        invertRunBool()
+        await msg.channel.send("SlangBot's status is now: " + str(runSlangBool))
+
+
+    runBool = getRunBool()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if(runBool):
         sendBool = False
-        userMsg = msg.content
+
         botMsg = ""
         parsedString = userMsg.split(" ")
         appendMsg = ""
@@ -87,10 +163,11 @@ def slangFun():
                 appendMsg = parsedString[x-1] + " " + iterStr
             botMsg = botMsg + iterStr + " "
 
+            appendMsg = appendMsg.lower()
             if appendMsg in slangDict and len(appendMsg) > 0:
                 iterStr = appendMsg
-                print("this shit in here bruh")
 
+            iterStr = iterStr.lower()
             if iterStr in slangDict:
                 sendBool = True
                 botMsg = botMsg + "(" + slangDict[iterStr] + ") "
@@ -98,19 +175,6 @@ def slangFun():
         if(sendBool):
             await msg.channel.send(botMsg)
 
-
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-
-client = discord.Client()
-
-@client.event
-async def on_ready():
-    print(f'{client.user} has connected to Discord!')
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="as an Elite Reflectioner"))
-
-
-slangFun()
 
 
 client.run(TOKEN)
